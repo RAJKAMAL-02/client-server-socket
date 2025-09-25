@@ -1,0 +1,14 @@
+C:\Nerve Solutions\ServerApp\obj\Debug\net9.0\ServerApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Nerve Solutions\ServerApp\obj\Debug\net9.0\ServerApp.AssemblyInfoInputs.cache
+C:\Nerve Solutions\ServerApp\obj\Debug\net9.0\ServerApp.AssemblyInfo.cs
+C:\Nerve Solutions\ServerApp\obj\Debug\net9.0\ServerApp.csproj.CoreCompileInputs.cache
+C:\Nerve Solutions\ServerApp\bin\Debug\net9.0\ServerApp.exe
+C:\Nerve Solutions\ServerApp\bin\Debug\net9.0\ServerApp.deps.json
+C:\Nerve Solutions\ServerApp\bin\Debug\net9.0\ServerApp.runtimeconfig.json
+C:\Nerve Solutions\ServerApp\bin\Debug\net9.0\ServerApp.dll
+C:\Nerve Solutions\ServerApp\bin\Debug\net9.0\ServerApp.pdb
+C:\Nerve Solutions\ServerApp\obj\Debug\net9.0\ServerApp.dll
+C:\Nerve Solutions\ServerApp\obj\Debug\net9.0\refint\ServerApp.dll
+C:\Nerve Solutions\ServerApp\obj\Debug\net9.0\ServerApp.pdb
+C:\Nerve Solutions\ServerApp\obj\Debug\net9.0\ServerApp.genruntimeconfig.cache
+C:\Nerve Solutions\ServerApp\obj\Debug\net9.0\ref\ServerApp.dll
