@@ -12,3 +12,4 @@ C:\Nerve Solutions\ClientApp\obj\Debug\net9.0\refint\ClientApp.dll
 C:\Nerve Solutions\ClientApp\obj\Debug\net9.0\ClientApp.pdb
 C:\Nerve Solutions\ClientApp\obj\Debug\net9.0\ClientApp.genruntimeconfig.cache
 C:\Nerve Solutions\ClientApp\obj\Debug\net9.0\ref\ClientApp.dll
+C:\Nerve Solutions\ClientApp\obj\Debug\net9.0\ClientApp.sourcelink.json
