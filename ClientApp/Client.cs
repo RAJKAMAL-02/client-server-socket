@@ -1,57 +1,81 @@
 using System;
 using System.Net.Sockets;
 using System.Text;
+using System.Security.Cryptography;
 
 class Client
 {
-    const string localHost = "127.0.0.1";
-    const int PORT = 8085;
+    static readonly byte[] key = Encoding.UTF8.GetBytes("1234567890123456"); 
+    static readonly byte[] iv  = Encoding.UTF8.GetBytes("1234567890123456"); 
 
     static void Main(string[] args)
     {
+        const int PORT = 8085;
+        const string SERVER = "127.0.0.1";
+
         try
         {
-            using (TcpClient client = new TcpClient(localHost, PORT))
+            using (TcpClient client = new TcpClient(SERVER, PORT))
+            using (NetworkStream stream = client.GetStream())
             {
-                Console.WriteLine("Connected to Server");
-
-                Console.Write("Enter string like SetA-One: ");
+                Console.Write("Enter request (e.g., SetA-One ): ");
                 string message = Console.ReadLine();
 
-                // Send request
-                using (NetworkStream stream = client.GetStream())
+                string encryptedMessage = Encrypt(message);
+                byte[] requestData = Encoding.UTF8.GetBytes(encryptedMessage);
+
+                stream.Write(requestData, 0, requestData.Length);
+
+                byte[] buffer = new byte[4096];
+                int bytesRead = stream.Read(buffer, 0, buffer.Length);
+
+                if (bytesRead > 0)
                 {
-                    byte[] data = Encoding.UTF8.GetBytes(message);
-                    stream.Write(data, 0, data.Length);
+                    string encryptedResponse = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                    string decryptedResponse = Decrypt(encryptedResponse);
 
-                    // Read response
-                    byte[] buffer = new byte[1024];
-                    int bytesRead = stream.Read(buffer, 0, buffer.Length);
-
-                    if (bytesRead > 0)
-                    {
-                        string response = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                        Console.WriteLine("Server response:");
-                        Console.WriteLine(response);
-                    }
-                    else
-                    {
-                        Console.WriteLine("No response from server.");
-                    }
+                    Console.WriteLine("\n--- Server Response ---");
+                    Console.WriteLine(decryptedResponse);
+                }
+                else
+                {
+                    Console.WriteLine("Empty response from server.");
                 }
             }
         }
-        catch (SocketException ex)
-        {
-            Console.WriteLine("Socket error: " + ex.Message);
-        }
         catch (Exception ex)
         {
-            Console.WriteLine("Unexpected error: " + ex.Message);
+            Console.WriteLine("Client error: " + ex.Message);
         }
-        finally
+    }
+
+    static string Encrypt(string plainText)
+    {
+        using (Aes aes = Aes.Create())
         {
-            Console.WriteLine("Client closed.");
+            aes.Key = key;
+            aes.IV = iv;
+            ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
+
+            byte[] plainBytes = Encoding.UTF8.GetBytes(plainText);
+            byte[] encrypted = encryptor.TransformFinalBlock(plainBytes, 0, plainBytes.Length);
+
+            return Convert.ToBase64String(encrypted);
+        }
+    }
+
+    static string Decrypt(string cipherText)
+    {
+        using (Aes aes = Aes.Create())
+        {
+            aes.Key = key;
+            aes.IV = iv;
+            ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+
+            byte[] cipherBytes = Convert.FromBase64String(cipherText);
+            byte[] decrypted = decryptor.TransformFinalBlock(cipherBytes, 0, cipherBytes.Length);
+
+            return Encoding.UTF8.GetString(decrypted);
         }
     }
 }
